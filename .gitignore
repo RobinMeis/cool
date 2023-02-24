@@ -1,3 +1,5 @@
+firmware/config.h
+
 # Kicad backups
 hardware/kicad/pcb-backups/
 
