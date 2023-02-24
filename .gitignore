@@ -1,3 +1,6 @@
+# Kicad backups
+hardware/kicad/pcb-backups/
+
 # Prerequisites
 *.d
 
