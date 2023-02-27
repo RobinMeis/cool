@@ -1,7 +1,7 @@
 Firmware/config.h
 
 # Kicad backups
-hardware/kicad/pcb-backups/
+Hardware/kicad/pcb-backups/
 
 # Prerequisites
 *.d
