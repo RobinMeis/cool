@@ -34,9 +34,9 @@ void controller_loop(float temperature_fridge, float temperature_freezer) { //Ca
 
   if (result_fridge == -2 && result_freezer == -2) { //Stop cooling if fridge & compressor have been turned off
     compressor_off();
-  } else if (result_fridge == -1 || result_freezer == -1) { //Stop cooling
-    compressor_off();
   } else if (result_fridge == 1 || result_freezer == 1) { //Start cooling
     compressor_on();
+  } else if (result_fridge == -1 || result_freezer == -1) { //Stop cooling
+    compressor_off();
   }
 }
