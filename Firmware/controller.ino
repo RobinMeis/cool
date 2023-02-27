@@ -36,8 +36,6 @@ void controller_loop(float temperature_fridge, float temperature_freezer) { //Ca
     compressor_off();
   } else if (result_fridge == -1 || result_freezer == -1) { //Stop cooling
     compressor_off();
-    if (preset_boost_active()) //Disable boost mode if minimum has reached
-      preset_mode_none();
   } else if (result_fridge == 1 || result_freezer == 1) { //Start cooling
     compressor_on();
   }
