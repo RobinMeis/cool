@@ -189,7 +189,7 @@ void homeassistant_autodiscovery_preset_timeout() {
   doc["command_topic"] = topic_control_preset_mode_timeout;
   doc["value_template"] = "{{ value_json.timeout_duration }}";
   doc["min"] = 10;
-  doc["max"] = 180;
+  doc["max"] = 360;
   doc["unit_of_measurement"] = "minutes";
   doc["availability_topic"] = topic_availability;
 

@@ -38,7 +38,7 @@ void preset_mode_boost() {
 }
 
 void preset_mode_set_timeout_duration(int duration) {
-  if (duration >= 10 && duration <= 180) //Filter disallowed values
+  if (duration >= 10 && duration <= 360) //Filter disallowed values
     preferences.putUInt("preset-duration", duration);
 
   preset_mode_status();
