@@ -6,7 +6,7 @@
 #include <Preferences.h>
 #include "config.h"
 
-#define SW_VERSION "0.0.3 very alpha"
+#define SW_VERSION "0.0.5 hutzi putzi"
 
 Preferences preferences;
 WiFiClient espClient;

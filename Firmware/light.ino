@@ -26,11 +26,11 @@ void light_set_brightness(int value) {
 
 void light_status() {
   if (light_is_on) {
-    client.publish(topic_status_light, "ON");
+    client.publish(topic_status_light, "ON", true);
     char value[5];
     itoa(preferences.getUChar("brightness", 254), value, 10);
     client.publish(topic_status_light_brightness, value);
   } else {
-    client.publish(topic_status_light, "OFF");
+    client.publish(topic_status_light, "OFF", true);
   }
 }

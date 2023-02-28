@@ -56,7 +56,7 @@ void homeassistant_autodiscovery_hvac_fridge() {
   sprintf(topic, "homeassistant/climate/cool_fridge_%s/config", mac_bytes);
   
   serializeJson(doc, buffer);
-  client.publish(topic, buffer);
+  client.publish(topic, buffer, true);
 }
 
 void homeassistant_autodiscovery_hvac_freezer() {
@@ -98,7 +98,7 @@ void homeassistant_autodiscovery_hvac_freezer() {
   sprintf(topic, "homeassistant/climate/cool_freezer_%s/config", mac_bytes);
   
   serializeJson(doc, buffer);
-  client.publish(topic, buffer);
+  client.publish(topic, buffer, true);
 }
 
 void homeassistant_autodiscovery_door() {
@@ -116,7 +116,7 @@ void homeassistant_autodiscovery_door() {
   sprintf(topic, "homeassistant/binary_sensor/door/fridge_%s/config", mac_bytes);
   
   serializeJson(doc, buffer);
-  client.publish(topic, buffer);
+  client.publish(topic, buffer, true);
 }
 
 void homeassistant_autodiscovery_light() {
@@ -136,7 +136,7 @@ void homeassistant_autodiscovery_light() {
   sprintf(topic, "homeassistant/light/fridge_%s/config", mac_bytes);
   
   serializeJson(doc, buffer);
-  client.publish(topic, buffer);
+  client.publish(topic, buffer, true);
 }
 
 void homeassistant_autodiscovery_compressor() {
@@ -155,7 +155,7 @@ void homeassistant_autodiscovery_compressor() {
   sprintf(topic, "homeassistant/binary_sensor/fridge_compressor_%s/config", mac_bytes);
   
   serializeJson(doc, buffer);
-  client.publish(topic, buffer);
+  client.publish(topic, buffer, true);
 }
 
 void homeassistant_autodiscovery_compressor_minimum_cycle_duration() {
@@ -176,7 +176,7 @@ void homeassistant_autodiscovery_compressor_minimum_cycle_duration() {
   sprintf(topic, "homeassistant/number/cool_compressor_cycle_%s/config", mac_bytes);
   
   serializeJson(doc, buffer);
-  client.publish(topic, buffer);
+  client.publish(topic, buffer, true);
 }
 
 void homeassistant_autodiscovery_preset_timeout() {
@@ -197,7 +197,7 @@ void homeassistant_autodiscovery_preset_timeout() {
   sprintf(topic, "homeassistant/number/cool_preset_timeout_%s/config", mac_bytes);
   
   serializeJson(doc, buffer);
-  client.publish(topic, buffer);
+  client.publish(topic, buffer, true);
 }
 
 void homeassistant_autodiscovery_reset_button() {
@@ -213,7 +213,7 @@ void homeassistant_autodiscovery_reset_button() {
   sprintf(topic, "homeassistant/button/cool_preset_timeout_%s/config", mac_bytes);
   
   serializeJson(doc, buffer);
-  client.publish(topic, buffer);
+  client.publish(topic, buffer, true);
 }
 
 void homeassistant_autodiscovery() {

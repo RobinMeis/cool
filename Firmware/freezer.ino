@@ -67,5 +67,5 @@ void freezer_status() {
   temperature["min"] = freezer_get_minimum_temperature();
   temperature["max"] = freezer_get_maximum_temperature();
   serializeJson(doc, buffer);
-  client.publish(topic_status_freezer, buffer);
+  client.publish(topic_status_freezer, buffer, true);
 }

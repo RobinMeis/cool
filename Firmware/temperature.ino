@@ -47,7 +47,7 @@ void temperature_loop() {
     #endif
 
     serializeJson(doc, buffer);
-    client.publish(topic_status_temperature, buffer);
+    client.publish(topic_status_temperature, buffer, true);
     Serial.println(buffer);
     
     controller_loop(temperature_fridge, temperature_freezer);

@@ -31,9 +31,9 @@ void door_closed() {
 
 void door_status() {
   if (door_is_open)
-    client.publish(topic_status_door, "open");
+    client.publish(topic_status_door, "open", true);
   else
-    client.publish(topic_status_door, "closed");
+    client.publish(topic_status_door, "closed", true);
 }
 
 void door_loop() {

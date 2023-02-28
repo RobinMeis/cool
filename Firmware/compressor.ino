@@ -47,5 +47,5 @@ void compressor_status() {
   doc["minimum_cycle_duration"] = compressor_get_minimum_cycle_duration();
  
   serializeJson(doc, buffer);
-  client.publish(topic_status_compressor, buffer);
+  client.publish(topic_status_compressor, buffer, true);
 }

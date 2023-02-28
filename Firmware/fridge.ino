@@ -67,5 +67,5 @@ void fridge_status() {
   temperature["min"] = fridge_get_minimum_temperature();
   temperature["max"] = fridge_get_maximum_temperature();
   serializeJson(doc, buffer);
-  client.publish(topic_status_fridge, buffer);
+  client.publish(topic_status_fridge, buffer, true);
 }

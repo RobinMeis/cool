@@ -72,5 +72,5 @@ void preset_mode_status() {
   }
 
   serializeJson(doc, buffer);
-  client.publish(topic_status_preset_mode, buffer);
+  client.publish(topic_status_preset_mode, buffer, true);
 }
