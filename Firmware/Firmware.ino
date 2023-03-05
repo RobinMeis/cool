@@ -49,7 +49,6 @@ char topic_availability[30],
      topic_control_reset_button[50];
 
 void setup() {
-  delay(2000);
   Serial.begin(115200);
 
   preferences.begin("cool", false); 
