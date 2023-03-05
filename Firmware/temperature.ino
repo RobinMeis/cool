@@ -15,7 +15,14 @@ void temperature_init_sensor(Adafruit_BMP280 &sensor, unsigned address) { //Init
   status = sensor.begin(address);
   if (!status) {
     Serial.println("Could not find a valid BMP280 fridge sensor, check wiring or try a different address!");
-    while (1) delay(10);
+    while (1) {
+      digitalWrite(LED_WIFI, HIGH);
+      digitalWrite(LED_MQTT, LOW);
+      delay(200);
+      digitalWrite(LED_WIFI, LOW);
+      digitalWrite(LED_MQTT, HIGH);
+      delay(200);
+    }
   }
 
   sensor.setSampling(Adafruit_BMP280::MODE_NORMAL,     /* Operating Mode. */

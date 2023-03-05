@@ -37,6 +37,7 @@ void door_status() {
 }
 
 void door_loop() {
+  Serial.println(digitalRead(PIN_DOOR));
   if (digitalRead(PIN_DOOR) == !PIN_DOOR_ACTIVE_LOW)
     door_open();
   else

@@ -1,45 +1,58 @@
 unsigned long mqtt_last_reconnect=0;
 
 void mqtt_init() {
+  pinMode(LED_MQTT, OUTPUT);
   client.setServer(MQTT_SERVER, MQTT_PORT);
   client.setCallback(callback);
 }
 
 void mqtt_reconnect() { //Check if MQTT server is connected and reconnect if required
-  if (!client.connected() && WiFi.status() == WL_CONNECTED && millis() - mqtt_last_reconnect > 5000) { //Reconnect only if wifi is connected
-    Serial.println("Connecting to MQTT Server...");
-   
-    if (client.connect(MQTT_CLIENT_ID, MQTT_USERNAME, MQTT_PASSWORD, topic_availability, 1, true, "offline")) {
-      client.setBufferSize(2048);
-      client.subscribe(topic_control_light);
-      client.subscribe(topic_control_light_brightness);
-      client.subscribe(topic_control_preset_mode);
-      client.subscribe(topic_control_preset_mode_timeout);
-      client.subscribe(topic_control_compressor_cycle);
-      client.subscribe(topic_control_reset_button);
+  if (client.connected()) {
+    digitalWrite(LED_MQTT, HIGH);
+  } else {
+    digitalWrite(LED_MQTT, LOW);
+    if (WiFi.status() == WL_CONNECTED && millis() - mqtt_last_reconnect > 5000) { //Reconnect only if wifi is connected
+      Serial.println("Connecting to MQTT Server...");
 
-      homeassistant_autodiscovery();
-      homeassistant_availability();
-      compressor_status();
-      door_status();
-      light_status();
-      preset_mode_status();
+      for (int i=0; i<5; ++i) {
+        digitalWrite(LED_MQTT, HIGH);
+        delay(100);
+        digitalWrite(LED_MQTT, LOW);
+        delay(100);
+      }
+    
+      if (client.connect(MQTT_CLIENT_ID, MQTT_USERNAME, MQTT_PASSWORD, topic_availability, 1, true, "offline")) {
+        client.setBufferSize(2048);
+        client.subscribe(topic_control_light);
+        client.subscribe(topic_control_light_brightness);
+        client.subscribe(topic_control_preset_mode);
+        client.subscribe(topic_control_preset_mode_timeout);
+        client.subscribe(topic_control_compressor_cycle);
+        client.subscribe(topic_control_reset_button);
 
-      #if HAS_FRIDGE==true
-        client.subscribe(topic_control_fridge_mode);
-        client.subscribe(topic_control_fridge_temperature_low);
-        client.subscribe(topic_control_fridge_temperature_high);
-        fridge_status();
-      #endif
+        homeassistant_autodiscovery();
+        homeassistant_availability();
+        compressor_status();
+        door_status();
+        light_status();
+        preset_mode_status();
 
-      #if HAS_FREEZER==true
-        client.subscribe(topic_control_freezer_mode);
-        client.subscribe(topic_control_freezer_temperature_low);
-        client.subscribe(topic_control_freezer_temperature_high);
-        freezer_status();
-      #endif
+        #if HAS_FRIDGE==true
+          client.subscribe(topic_control_fridge_mode);
+          client.subscribe(topic_control_fridge_temperature_low);
+          client.subscribe(topic_control_fridge_temperature_high);
+          fridge_status();
+        #endif
+
+        #if HAS_FREEZER==true
+          client.subscribe(topic_control_freezer_mode);
+          client.subscribe(topic_control_freezer_temperature_low);
+          client.subscribe(topic_control_freezer_temperature_high);
+          freezer_status();
+        #endif
+      }
+      mqtt_last_reconnect = millis();
     }
-    mqtt_last_reconnect = millis();
   }
 }
 
