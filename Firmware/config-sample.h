@@ -15,7 +15,7 @@
 #define MQTT_CLIENT_ID "fridge"
 #define MQTT_USERNAME "user"
 #define MQTT_PASSWORD "password"
-#define HOMEASSISTANT_AUTODISCOVERY_INTEVAL 60000
+#define HOMEASSISTANT_AUTODISCOVERY_INTERVAL 60000
 
 //Device type
 #define HAS_FRIDGE true
@@ -30,7 +30,7 @@
 
 //Pins
 #define PIN_COMPRESSOR 5
-#define PIN_LIGHT LED_BUILTIN
+#define PIN_LIGHT 13
 #define PIN_DOOR 4
 #define PIN_DOOR_ACTIVE_LOW true
 #define DOOR_DEBOUNCE_TIME 200

@@ -237,7 +237,7 @@ void homeassistant_autodiscovery() {
 
 unsigned long homeassistant_last_autodiscovery = 0;
 void homeassistant_loop() {
-  if (millis() - homeassistant_last_autodiscovery > HOMEASSISTANT_AUTODISCOVERY_INTEVAL) {
+  if (millis() - homeassistant_last_autodiscovery > HOMEASSISTANT_AUTODISCOVERY_INTERVAL) {
     homeassistant_autodiscovery();
     homeassistant_last_autodiscovery = millis();
   }
