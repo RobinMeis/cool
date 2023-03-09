@@ -224,6 +224,83 @@ void homeassistant_autodiscovery_reset_button() {
   client.publish(topic, buffer, true);
 }
 
+void homeassistant_autodiscovery_rssi() {
+  DynamicJsonDocument doc(1024);
+  homeassistant_autodiscovery_device(doc);
+  doc["name"] = "RSSI";
+  doc["icon"] = "mdi:wifi-strength-3";
+  doc["unique_id"] = host_name + "_rssi";
+  doc["object_id"] = doc["unique_id"];
+  doc["state_topic"] = topic_status_wifi;
+  doc["value_template"] = "{{ value_json.RSSI }}";
+  doc["unit_of_measurement"] = "dBm";
+  doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "diagnostic";
+
+  char topic[85];
+  homeassistant_generate_topic(topic, "sensor", "rssi");
+  
+  serializeJson(doc, buffer);
+  client.publish(topic, buffer, true);
+}
+
+void homeassistant_autodiscovery_essid() {
+  DynamicJsonDocument doc(1024);
+  homeassistant_autodiscovery_device(doc);
+  doc["name"] = "ESSID";
+  doc["icon"] = "mdi:wifi";
+  doc["unique_id"] = host_name + "_essid";
+  doc["object_id"] = doc["unique_id"];
+  doc["state_topic"] = topic_status_wifi;
+  doc["value_template"] = "{{ value_json.ESSID }}";
+  doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "diagnostic";
+
+  char topic[85];
+  homeassistant_generate_topic(topic, "sensor", "essid");
+  
+  serializeJson(doc, buffer);
+  client.publish(topic, buffer, true);
+}
+
+void homeassistant_autodiscovery_mac() {
+  DynamicJsonDocument doc(1024);
+  homeassistant_autodiscovery_device(doc);
+  doc["name"] = "MAC address";
+  doc["icon"] = "mdi:identifier";
+  doc["unique_id"] = host_name + "_mac";
+  doc["object_id"] = doc["unique_id"];
+  doc["state_topic"] = topic_status_wifi;
+  doc["value_template"] = "{{ value_json.MAC }}";
+  doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "diagnostic";
+
+  char topic[85];
+  homeassistant_generate_topic(topic, "sensor", "mac");
+  
+  serializeJson(doc, buffer);
+  client.publish(topic, buffer, true);
+}
+
+void homeassistant_autodiscovery_ip() {
+  DynamicJsonDocument doc(1024);
+  homeassistant_autodiscovery_device(doc);
+  doc["name"] = "IP address";
+  doc["icon"] = "mdi:ip-network";
+  doc["unique_id"] = host_name + "_ip";
+  doc["object_id"] = doc["unique_id"];
+  doc["state_topic"] = topic_status_wifi;
+  doc["value_template"] = "{{ value_json.IP }}";
+  doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "diagnostic";
+
+  char topic[85];
+  homeassistant_generate_topic(topic, "sensor", "ip");
+  
+  serializeJson(doc, buffer);
+  client.publish(topic, buffer, true);
+}
+
 void homeassistant_autodiscovery() {
   homeassistant_availability();
   homeassistant_autodiscovery_door();
@@ -232,6 +309,10 @@ void homeassistant_autodiscovery() {
   homeassistant_autodiscovery_compressor_minimum_cycle_duration();
   homeassistant_autodiscovery_preset_timeout();
   homeassistant_autodiscovery_reset_button();
+  homeassistant_autodiscovery_rssi();
+  homeassistant_autodiscovery_essid();
+  homeassistant_autodiscovery_mac();
+  homeassistant_autodiscovery_ip();
 
   #if HAS_FRIDGE==true
     homeassistant_autodiscovery_hvac_fridge();
