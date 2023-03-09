@@ -12,7 +12,7 @@
 //MQTT configuration
 #define MQTT_SERVER "mqtt.local"
 #define MQTT_PORT 1883
-#define MQTT_CLIENT_ID "fridge"
+#define MQTT_CLIENT_ID host_name.c_str()
 #define MQTT_USERNAME "user"
 #define MQTT_PASSWORD "password"
 #define HOMEASSISTANT_AUTODISCOVERY_INTERVAL 60000

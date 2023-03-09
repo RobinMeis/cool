@@ -1,7 +1,3 @@
-String getSerial() {
-  return mac;
-}
-
 void homeassistant_availability() {
   client.publish(topic_availability, "online");
 }
@@ -9,7 +5,7 @@ void homeassistant_availability() {
 void homeassistant_autodiscovery_device(JsonDocument &doc) {
   JsonObject device = doc.createNestedObject("device");
   JsonArray identifiers = device.createNestedArray("identifiers");
-  identifiers.add("fridge_" + getSerial());
+  identifiers.add(host_name);
   device["manufacturer"] = "Robin Meis";
   device["model"] = "Cool";
   device["name"] = DEVICE_NAME;
@@ -21,7 +17,7 @@ void homeassistant_autodiscovery_hvac_fridge() {
   DynamicJsonDocument doc(2048);
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Fridge";
-  doc["unique_id"] = "cool_fridge_" + getSerial();
+  doc["unique_id"] = host_name + "_fridge";
   doc["availability_topic"] = topic_availability;
   doc["icon"] = "mdi:thermometer";
   doc["min_temp"] = FRIDGE_HVAC_MINIMUM;
@@ -53,8 +49,8 @@ void homeassistant_autodiscovery_hvac_fridge() {
   preset_modes.add("eco");
 
   char topic[60];
-  sprintf(topic, "homeassistant/climate/cool_fridge_%s/config", mac_bytes);
-  
+  homeassistant_generate_topic(topic, "climate", "fridge");
+
   serializeJson(doc, buffer);
   client.publish(topic, buffer, true);
 }
@@ -63,7 +59,7 @@ void homeassistant_autodiscovery_hvac_freezer() {
   DynamicJsonDocument doc(2048);
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Freezer";
-  doc["unique_id"] = "cool_freezer_" + getSerial();
+  doc["unique_id"] = host_name + "_freezer";
   doc["availability_topic"] = topic_availability;
   doc["icon"] = "mdi:snowflake-thermometer";
   doc["min_temp"] = FREEZER_HVAC_MINIMUM;
@@ -95,8 +91,8 @@ void homeassistant_autodiscovery_hvac_freezer() {
   preset_modes.add("eco");
 
   char topic[60];
-  sprintf(topic, "homeassistant/climate/cool_freezer_%s/config", mac_bytes);
-  
+  homeassistant_generate_topic(topic, "climate", "freezer");
+
   serializeJson(doc, buffer);
   client.publish(topic, buffer, true);
 }
@@ -105,7 +101,7 @@ void homeassistant_autodiscovery_door() {
   DynamicJsonDocument doc(1024);
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Door";
-  doc["unique_id"] = "fridge_door_" + getSerial();
+  doc["unique_id"] = host_name + "_door";
   doc["state_topic"] = topic_status_door;
   doc["device_class"] = "door";
   doc["payload_on"] = "open";
@@ -113,7 +109,7 @@ void homeassistant_autodiscovery_door() {
   doc["availability_topic"] = topic_availability;
 
   char topic[60];
-  sprintf(topic, "homeassistant/binary_sensor/door/fridge_%s/config", mac_bytes);
+  homeassistant_generate_topic(topic, "binary_sensor", "door");
   
   serializeJson(doc, buffer);
   client.publish(topic, buffer, true);
@@ -123,7 +119,7 @@ void homeassistant_autodiscovery_light() {
   DynamicJsonDocument doc(1024);
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Light";
-  doc["unique_id"] = "fridge_light_" + getSerial();
+  doc["unique_id"] = host_name + "_light";
   doc["command_topic"] = topic_control_light;
   doc["state_topic"] = topic_status_light;
   doc["brightness"] = true;
@@ -133,7 +129,7 @@ void homeassistant_autodiscovery_light() {
   doc["availability_topic"] = topic_availability;
 
   char topic[60];
-  sprintf(topic, "homeassistant/light/fridge_%s/config", mac_bytes);
+  homeassistant_generate_topic(topic, "light", "light");
   
   serializeJson(doc, buffer);
   client.publish(topic, buffer, true);
@@ -143,7 +139,7 @@ void homeassistant_autodiscovery_compressor() {
   DynamicJsonDocument doc(1024);
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Compressor";
-  doc["unique_id"] = "fridge_compressor_" + getSerial();
+  doc["unique_id"] = host_name + "_compressor";
   doc["state_topic"] = topic_status_compressor;
   doc["device_class"] = "running";
   doc["value_template"] = "{{ value_json.on }}";
@@ -151,8 +147,8 @@ void homeassistant_autodiscovery_compressor() {
   doc["payload_off"] = false;
   doc["availability_topic"] = topic_availability;
 
-  char topic[60];
-  sprintf(topic, "homeassistant/binary_sensor/fridge_compressor_%s/config", mac_bytes);
+  char topic[65];
+  homeassistant_generate_topic(topic, "binary_sensor", "compressor");
   
   serializeJson(doc, buffer);
   client.publish(topic, buffer, true);
@@ -163,7 +159,7 @@ void homeassistant_autodiscovery_compressor_minimum_cycle_duration() {
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Compressor minimum cycle duration";
   doc["icon"] = "mdi:timer-outline";
-  doc["unique_id"] = "cool_compressor_minimum_cycle_duration" + getSerial();
+  doc["unique_id"] = host_name + "_compressor_minimum_cycle_duration";
   doc["state_topic"] = topic_status_compressor;
   doc["command_topic"] = topic_control_compressor_cycle;
   doc["value_template"] = "{{ value_json.minimum_cycle_duration }}";
@@ -172,8 +168,8 @@ void homeassistant_autodiscovery_compressor_minimum_cycle_duration() {
   doc["unit_of_measurement"] = "minutes";
   doc["availability_topic"] = topic_availability;
 
-  char topic[60];
-  sprintf(topic, "homeassistant/number/cool_compressor_cycle_%s/config", mac_bytes);
+  char topic[85];
+  homeassistant_generate_topic(topic, "number", "compressor_minimum_cycle_duration");
   
   serializeJson(doc, buffer);
   client.publish(topic, buffer, true);
@@ -184,7 +180,7 @@ void homeassistant_autodiscovery_preset_timeout() {
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Preset timeout";
   doc["icon"] = "mdi:timer-outline";
-  doc["unique_id"] = "cool_preset_timeout" + getSerial();
+  doc["unique_id"] = host_name + "_preset_timeout";
   doc["state_topic"] = topic_status_preset_mode;
   doc["command_topic"] = topic_control_preset_mode_timeout;
   doc["value_template"] = "{{ value_json.timeout_duration }}";
@@ -193,8 +189,8 @@ void homeassistant_autodiscovery_preset_timeout() {
   doc["unit_of_measurement"] = "minutes";
   doc["availability_topic"] = topic_availability;
 
-  char topic[60];
-  sprintf(topic, "homeassistant/number/cool_preset_timeout_%s/config", mac_bytes);
+  char topic[65];
+  homeassistant_generate_topic(topic, "number", "preset_timeout");
   
   serializeJson(doc, buffer);
   client.publish(topic, buffer, true);
@@ -205,12 +201,12 @@ void homeassistant_autodiscovery_reset_button() {
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Restart";
   doc["icon"] = "mdi:restart";
-  doc["unique_id"] = "cool_reset_button" + getSerial();
+  doc["unique_id"] = host_name + "_reset";
   doc["command_topic"] = topic_control_reset_button;
   doc["availability_topic"] = topic_availability;
 
-  char topic[60];
-  sprintf(topic, "homeassistant/button/cool_preset_timeout_%s/config", mac_bytes);
+  char topic[65];
+  homeassistant_generate_topic(topic, "button", "reset");
   
   serializeJson(doc, buffer);
   client.publish(topic, buffer, true);
@@ -240,6 +236,9 @@ void homeassistant_loop() {
   if (millis() - homeassistant_last_autodiscovery > HOMEASSISTANT_AUTODISCOVERY_INTERVAL) {
     homeassistant_autodiscovery();
     homeassistant_last_autodiscovery = millis();
-  }
-  
+  } 
+}
+
+void homeassistant_generate_topic(char *topic_variable, char *component, char *objectid) {
+  sprintf(topic_variable, "homeassistant/%s/%s/%s/config", component, host_name.c_str(), objectid);
 }

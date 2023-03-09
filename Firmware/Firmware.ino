@@ -23,10 +23,9 @@ PubSubClient client(espClient);
 #endif
 
 char buffer[2048];
-String mac = WiFi.macAddress();
-char mac_bytes[13];
 
-char topic_availability[30],
+
+char topic_availability[35],
      topic_status_door[40],
      topic_control_light[40],
      topic_status_light[40],
@@ -55,32 +54,32 @@ void setup() {
   Serial.begin(115200);
 
   byte mac_binary[6];
+  char mac[13];
   WiFi.macAddress(mac_binary);
-  sprintf(mac_bytes, "%x%x%x%x%x%x", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  mac = mac_bytes;
-  host_name = "cool-" + mac;
-  
-  sprintf(topic_availability, "fridge_%x%x%x%x%x%x/availability", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_status_door, "fridge_%x%x%x%x%x%x/status/door", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_light, "fridge_%x%x%x%x%x%x/control/light", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_status_light, "fridge_%x%x%x%x%x%x/status/light", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_light_brightness, "fridge_%x%x%x%x%x%x/control/light/brightness", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_status_light_brightness, "fridge_%x%x%x%x%x%x/status/light/brightness", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_status_compressor, "fridge_%x%x%x%x%x%x/status/compressor", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_compressor_cycle, "fridge_%x%x%x%x%x%x/control/compressor/cycle", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_status_temperature, "fridge_%x%x%x%x%x%x/status/temperature", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_preset_mode, "fridge_%x%x%x%x%x%x/control/preset_mode", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_preset_mode_timeout, "fridge_%x%x%x%x%x%x/control/preset_mode/timeout", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_status_preset_mode, "fridge_%x%x%x%x%x%x/status/preset_mode", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_status_fridge, "fridge_%x%x%x%x%x%x/status/fridge", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_fridge_mode, "fridge_%x%x%x%x%x%x/control/fridge/mode", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_fridge_temperature_low, "fridge_%x%x%x%x%x%x/control/fridge/temperature/low", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_fridge_temperature_high, "fridge_%x%x%x%x%x%x/control/fridge/temperature/high", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_status_freezer, "fridge_%x%x%x%x%x%x/status/freezer", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_freezer_mode, "fridge_%x%x%x%x%x%x/control/freezer/mode", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_freezer_temperature_low, "fridge_%x%x%x%x%x%x/control/freezer/temperature/low", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_freezer_temperature_high, "fridge_%x%x%x%x%x%x/control/freezer/temperature/high", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
-  sprintf(topic_control_reset_button, "fridge_%x%x%x%x%x%x/control/freezer/temperature/high", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
+  sprintf(mac, "%x%x%x%x%x%x", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
+  host_name = "cool-" + (String)mac;
+
+  mqtt_generate_topic(topic_availability, "availability");
+  mqtt_generate_topic(topic_status_door, "status/door");
+  mqtt_generate_topic(topic_control_light, "control/light");
+  mqtt_generate_topic(topic_status_light, "status/light");
+  mqtt_generate_topic(topic_control_light_brightness, "control/light/brightness");
+  mqtt_generate_topic(topic_status_light_brightness, "status/light/brightness");
+  mqtt_generate_topic(topic_status_compressor, "status/compressor");
+  mqtt_generate_topic(topic_control_compressor_cycle, "control/compressor/cycle");
+  mqtt_generate_topic(topic_status_temperature, "status/temperature");
+  mqtt_generate_topic(topic_control_preset_mode, "control/preset_mode");
+  mqtt_generate_topic(topic_control_preset_mode_timeout, "control/preset_mode/timeout");
+  mqtt_generate_topic(topic_status_preset_mode, "status/preset_mode");
+  mqtt_generate_topic(topic_status_fridge, "status/fridge");
+  mqtt_generate_topic(topic_control_fridge_mode, "control/fridge/mode");
+  mqtt_generate_topic(topic_control_fridge_temperature_low, "control/fridge/temperature/low");
+  mqtt_generate_topic(topic_control_fridge_temperature_high, "control/fridge/temperature/high");
+  mqtt_generate_topic(topic_status_freezer, "status/freezer");
+  mqtt_generate_topic(topic_control_freezer_mode, "control/freezer/mode");
+  mqtt_generate_topic(topic_control_freezer_temperature_low, "control/freezer/temperature/low");
+  mqtt_generate_topic(topic_control_freezer_temperature_high, "control/freezer/temperature/high");
+  mqtt_generate_topic(topic_control_reset_button, "control/reset");
 
   preferences.begin("cool", false); 
   preset_mode_init();

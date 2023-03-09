@@ -20,7 +20,7 @@ void mqtt_reconnect() { //Check if MQTT server is connected and reconnect if req
         digitalWrite(LED_MQTT, LOW);
         delay(100);
       }
-    
+
       if (client.connect(MQTT_CLIENT_ID, MQTT_USERNAME, MQTT_PASSWORD, topic_availability, 1, true, "offline")) {
         client.setBufferSize(2048);
         client.subscribe(topic_control_light);
@@ -113,4 +113,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void mqtt_loop() {
   mqtt_reconnect();
   client.loop();
+}
+
+void mqtt_generate_topic(char *topic_variable, char *topic) {
+  sprintf(topic_variable, "%s/%s", host_name.c_str(), topic);
 }
