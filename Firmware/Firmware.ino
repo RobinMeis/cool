@@ -6,7 +6,7 @@
 #include <Preferences.h>
 #include "config.h"
 
-#define SW_VERSION "0.0.5 hutzi putzi"
+#define SW_VERSION "0.0.6"
 
 Preferences preferences;
 WiFiClient espClient;
@@ -48,23 +48,18 @@ char topic_availability[30],
      topic_control_freezer_temperature_high[65],
      topic_control_reset_button[50];
 
-void setup() {
-  Serial.begin(115200);
+String host_name;
 
-  preferences.begin("cool", false); 
-  preset_mode_init();
-  compressor_init();
-  light_init();
-  door_init();
-  wifi_init();
-  mqtt_init();
-  temperature_init();
+void setup() {
+  delay(2000); //Boot delay
+  Serial.begin(115200);
 
   byte mac_binary[6];
   WiFi.macAddress(mac_binary);
   sprintf(mac_bytes, "%x%x%x%x%x%x", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
   mac = mac_bytes;
-
+  host_name = "cool-" + mac;
+  
   sprintf(topic_availability, "fridge_%x%x%x%x%x%x/availability", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
   sprintf(topic_status_door, "fridge_%x%x%x%x%x%x/status/door", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
   sprintf(topic_control_light, "fridge_%x%x%x%x%x%x/control/light", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
@@ -86,6 +81,15 @@ void setup() {
   sprintf(topic_control_freezer_temperature_low, "fridge_%x%x%x%x%x%x/control/freezer/temperature/low", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
   sprintf(topic_control_freezer_temperature_high, "fridge_%x%x%x%x%x%x/control/freezer/temperature/high", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
   sprintf(topic_control_reset_button, "fridge_%x%x%x%x%x%x/control/freezer/temperature/high", mac_binary[0], mac_binary[1], mac_binary[2], mac_binary[3], mac_binary[4], mac_binary[5]);
+
+  preferences.begin("cool", false); 
+  preset_mode_init();
+  compressor_init();
+  light_init();
+  door_init();
+  wifi_init();
+  mqtt_init();
+  temperature_init();
 }
 
 void loop() {

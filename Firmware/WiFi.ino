@@ -2,6 +2,8 @@ unsigned long wifi_last_reconnect=0;
 
 void wifi_init() { //Initializes wireless connection
   pinMode(LED_WIFI, OUTPUT);
+  WiFi.mode(WIFI_STA);
+  WiFi.hostname(host_name);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 }
 
