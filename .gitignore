@@ -1,3 +1,4 @@
+*.bin
 Firmware/config.h
 
 # Kicad backups
