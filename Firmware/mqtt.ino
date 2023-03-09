@@ -29,6 +29,7 @@ void mqtt_reconnect() { //Check if MQTT server is connected and reconnect if req
         client.subscribe(topic_control_preset_mode_timeout);
         client.subscribe(topic_control_compressor_cycle);
         client.subscribe(topic_control_reset_button);
+        client.subscribe(topic_control_updater);
 
         homeassistant_autodiscovery();
         homeassistant_availability();
@@ -36,6 +37,7 @@ void mqtt_reconnect() { //Check if MQTT server is connected and reconnect if req
         door_status();
         light_status();
         preset_mode_status();
+        updater_status();
 
         #if HAS_FRIDGE==true
           client.subscribe(topic_control_fridge_mode);
@@ -107,6 +109,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
   #endif
   } else if (strcmp(topic, topic_control_reset_button) == 0) { //Reset button
     reset();
+  } else if (strcmp(topic, topic_control_updater) == 0) { //Updater
+    if (strcmp((char*)payload, "ON") == 0) {
+      updater_enable();
+    } else if (strcmp((char*)payload, "OFF") == 0) {
+      updater_disable();
+    }
   }
 }
 

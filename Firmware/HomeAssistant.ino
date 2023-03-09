@@ -11,6 +11,7 @@ void homeassistant_autodiscovery_device(JsonDocument &doc) {
   device["name"] = DEVICE_NAME;
   device["sw_version"] = SW_VERSION;
   device["suggested_area"] = "Kitchen";
+  device["configuration_url"] = "http://" + WiFi.localIP().toString() + "/update";
 }
 
 void homeassistant_autodiscovery_hvac_fridge() {
@@ -301,6 +302,25 @@ void homeassistant_autodiscovery_ip() {
   client.publish(topic, buffer, true);
 }
 
+void homeassistant_autodiscovery_updater() {
+  DynamicJsonDocument doc(1024);
+  homeassistant_autodiscovery_device(doc);
+  doc["name"] = "Web updater";
+  doc["icon"] = "mdi:update";
+  doc["unique_id"] = host_name + "_updater";
+  doc["object_id"] = doc["unique_id"];
+  doc["command_topic"] = topic_control_updater;
+  doc["state_topic"] = topic_status_updater;
+  doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "diagnostic";
+
+  char topic[60];
+  homeassistant_generate_topic(topic, "switch", "updater");
+  
+  serializeJson(doc, buffer);
+  client.publish(topic, buffer, true);
+}
+
 void homeassistant_autodiscovery() {
   homeassistant_availability();
   homeassistant_autodiscovery_door();
@@ -313,6 +333,7 @@ void homeassistant_autodiscovery() {
   homeassistant_autodiscovery_essid();
   homeassistant_autodiscovery_mac();
   homeassistant_autodiscovery_ip();
+  homeassistant_autodiscovery_updater();
 
   #if HAS_FRIDGE==true
     homeassistant_autodiscovery_hvac_fridge();

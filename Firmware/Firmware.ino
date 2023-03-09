@@ -6,7 +6,7 @@
 #include <Preferences.h>
 #include "config.h"
 
-#define SW_VERSION "0.0.7"
+#define SW_VERSION "0.0.8"
 
 Preferences preferences;
 WiFiClient espClient;
@@ -46,7 +46,9 @@ char topic_availability[35],
      topic_control_freezer_temperature_low[65],
      topic_control_freezer_temperature_high[65],
      topic_control_reset_button[50],
-     topic_status_wifi[50];
+     topic_status_wifi[50],
+     topic_control_updater[40],
+     topic_status_updater[40];
 
 String host_name;
 
@@ -82,6 +84,8 @@ void setup() {
   mqtt_generate_topic(topic_control_freezer_temperature_high, "control/freezer/temperature/high");
   mqtt_generate_topic(topic_control_reset_button, "control/reset");
   mqtt_generate_topic(topic_status_wifi, "status/wifi");
+  mqtt_generate_topic(topic_control_updater, "control/updater");
+  mqtt_generate_topic(topic_status_updater, "status/updater");
 
   preferences.begin("cool", false); 
   preset_mode_init();
@@ -91,6 +95,7 @@ void setup() {
   wifi_init();
   mqtt_init();
   temperature_init();
+  updater_init();
 }
 
 void loop() {
@@ -100,4 +105,5 @@ void loop() {
   temperature_loop();
   homeassistant_loop();
   door_loop();
+  updater_loop();
 }
