@@ -131,6 +131,7 @@ void homeassistant_autodiscovery_light() {
   doc["brightness_command_topic"] = topic_control_light_brightness;
   doc["brightness_state_topic"] = topic_status_light_brightness;
   doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "config";
 
   char topic[60];
   homeassistant_generate_topic(topic, "light", "light");
@@ -173,6 +174,7 @@ void homeassistant_autodiscovery_compressor_minimum_cycle_duration() {
   doc["max"] = 30;
   doc["unit_of_measurement"] = "minutes";
   doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "config";
 
   char topic[85];
   homeassistant_generate_topic(topic, "number", "compressor_minimum_cycle_duration");
@@ -195,6 +197,7 @@ void homeassistant_autodiscovery_preset_timeout() {
   doc["max"] = 360;
   doc["unit_of_measurement"] = "minutes";
   doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "config";
 
   char topic[65];
   homeassistant_generate_topic(topic, "number", "preset_timeout");
@@ -212,6 +215,7 @@ void homeassistant_autodiscovery_reset_button() {
   doc["object_id"] = doc["unique_id"];
   doc["command_topic"] = topic_control_reset_button;
   doc["availability_topic"] = topic_availability;
+  doc["entity_category"] = "config";
 
   char topic[65];
   homeassistant_generate_topic(topic, "button", "reset");
