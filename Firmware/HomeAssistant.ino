@@ -18,6 +18,7 @@ void homeassistant_autodiscovery_hvac_fridge() {
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Fridge";
   doc["unique_id"] = host_name + "_fridge";
+  doc["object_id"] = doc["unique_id"];
   doc["availability_topic"] = topic_availability;
   doc["icon"] = "mdi:thermometer";
   doc["min_temp"] = FRIDGE_HVAC_MINIMUM;
@@ -60,6 +61,7 @@ void homeassistant_autodiscovery_hvac_freezer() {
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Freezer";
   doc["unique_id"] = host_name + "_freezer";
+  doc["object_id"] = doc["unique_id"];
   doc["availability_topic"] = topic_availability;
   doc["icon"] = "mdi:snowflake-thermometer";
   doc["min_temp"] = FREEZER_HVAC_MINIMUM;
@@ -102,6 +104,7 @@ void homeassistant_autodiscovery_door() {
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Door";
   doc["unique_id"] = host_name + "_door";
+  doc["object_id"] = doc["unique_id"];
   doc["state_topic"] = topic_status_door;
   doc["device_class"] = "door";
   doc["payload_on"] = "open";
@@ -120,6 +123,7 @@ void homeassistant_autodiscovery_light() {
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Light";
   doc["unique_id"] = host_name + "_light";
+  doc["object_id"] = doc["unique_id"];
   doc["command_topic"] = topic_control_light;
   doc["state_topic"] = topic_status_light;
   doc["brightness"] = true;
@@ -140,6 +144,7 @@ void homeassistant_autodiscovery_compressor() {
   homeassistant_autodiscovery_device(doc);
   doc["name"] = "Compressor";
   doc["unique_id"] = host_name + "_compressor";
+  doc["object_id"] = doc["unique_id"];
   doc["state_topic"] = topic_status_compressor;
   doc["device_class"] = "running";
   doc["value_template"] = "{{ value_json.on }}";
@@ -160,6 +165,7 @@ void homeassistant_autodiscovery_compressor_minimum_cycle_duration() {
   doc["name"] = "Compressor minimum cycle duration";
   doc["icon"] = "mdi:timer-outline";
   doc["unique_id"] = host_name + "_compressor_minimum_cycle_duration";
+  doc["object_id"] = doc["unique_id"];
   doc["state_topic"] = topic_status_compressor;
   doc["command_topic"] = topic_control_compressor_cycle;
   doc["value_template"] = "{{ value_json.minimum_cycle_duration }}";
@@ -181,6 +187,7 @@ void homeassistant_autodiscovery_preset_timeout() {
   doc["name"] = "Preset timeout";
   doc["icon"] = "mdi:timer-outline";
   doc["unique_id"] = host_name + "_preset_timeout";
+  doc["object_id"] = doc["unique_id"];
   doc["state_topic"] = topic_status_preset_mode;
   doc["command_topic"] = topic_control_preset_mode_timeout;
   doc["value_template"] = "{{ value_json.timeout_duration }}";
@@ -202,6 +209,7 @@ void homeassistant_autodiscovery_reset_button() {
   doc["name"] = "Restart";
   doc["icon"] = "mdi:restart";
   doc["unique_id"] = host_name + "_reset";
+  doc["object_id"] = doc["unique_id"];
   doc["command_topic"] = topic_control_reset_button;
   doc["availability_topic"] = topic_availability;
 
