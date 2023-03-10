@@ -31,8 +31,8 @@ void mqtt_reconnect() { //Check if MQTT server is connected and reconnect if req
         client.subscribe(topic_control_reset_button);
         client.subscribe(topic_control_updater);
 
+        mqtt_availability();
         homeassistant_autodiscovery();
-        homeassistant_availability();
         compressor_status();
         door_status();
         light_status();
@@ -109,6 +109,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
   } else if (strcmp(topic, topic_control_reset_button) == 0) { //Reset button
     reset();
   }
+}
+
+void mqtt_availability() {
+  client.publish(topic_availability, "online", true);
 }
 
 void mqtt_loop() {

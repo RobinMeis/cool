@@ -1,7 +1,3 @@
-void homeassistant_availability() {
-  client.publish(topic_availability, "online");
-}
-
 void homeassistant_autodiscovery_device(JsonDocument &doc) {
   JsonObject device = doc.createNestedObject("device");
   JsonArray identifiers = device.createNestedArray("identifiers");
@@ -303,7 +299,6 @@ void homeassistant_autodiscovery_ip() {
 }
 
 void homeassistant_autodiscovery() {
-  homeassistant_availability();
   homeassistant_autodiscovery_door();
   homeassistant_autodiscovery_light();
   homeassistant_autodiscovery_compressor();
