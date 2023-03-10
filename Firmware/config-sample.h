@@ -33,11 +33,13 @@
 #endif
 
 // Pins
-#define PIN_COMPRESSOR 5
-#define PIN_LIGHT LED_BUILTIN
-#define PIN_DOOR 4
+#define PIN_COMPRESSOR 2
+#define PIN_LIGHT 13
+#define PIN_DOOR 19
 #define PIN_DOOR_ACTIVE_LOW true
 #define DOOR_DEBOUNCE_TIME 200
+#define LED_WIFI 26
+#define LED_MQTT 27
 
 // I2C addresses
 #define I2C_ADDRESS_FRIDGE 0x76
@@ -60,8 +62,5 @@
 #define FRIDGE_MAXIMUM 7
 #define FREEZER_MINIMUM -27
 #define FREEZER_MAXIMUM -4.5
-
-#define LED_WIFI LED_BUILTIN
-#define LED_MQTT LED_BUILTIN
 
 #endif
