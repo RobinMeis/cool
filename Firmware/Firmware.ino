@@ -6,7 +6,7 @@
 #include <Preferences.h>
 #include "config.h"
 
-#define SW_VERSION "0.0.10"
+#define SW_VERSION "0.0.11"
 
 Preferences preferences;
 WiFiClient espClient;
@@ -46,9 +46,7 @@ char topic_availability[35],
      topic_control_freezer_temperature_low[65],
      topic_control_freezer_temperature_high[65],
      topic_control_reset_button[50],
-     topic_status_wifi[50],
-     topic_control_updater[40],
-     topic_status_updater[40];
+     topic_status_wifi[50];
 
 String host_name;
 

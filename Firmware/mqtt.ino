@@ -29,7 +29,6 @@ void mqtt_reconnect() { //Check if MQTT server is connected and reconnect if req
         client.subscribe(topic_control_preset_mode_timeout);
         client.subscribe(topic_control_compressor_cycle);
         client.subscribe(topic_control_reset_button);
-        client.subscribe(topic_control_updater);
 
         mqtt_availability();
         homeassistant_autodiscovery();
