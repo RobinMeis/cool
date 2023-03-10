@@ -319,15 +319,6 @@ void homeassistant_autodiscovery() {
   #endif
 }
 
-
-unsigned long homeassistant_last_autodiscovery = 0;
-void homeassistant_loop() {
-  if (millis() - homeassistant_last_autodiscovery > HOMEASSISTANT_AUTODISCOVERY_INTERVAL) {
-    homeassistant_autodiscovery();
-    homeassistant_last_autodiscovery = millis();
-  } 
-}
-
 void homeassistant_generate_topic(char *topic_variable, char *component, char *objectid) {
   sprintf(topic_variable, "homeassistant/%s/%s/%s/config", component, host_name.c_str(), objectid);
 }

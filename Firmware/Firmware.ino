@@ -6,7 +6,7 @@
 #include <Preferences.h>
 #include "config.h"
 
-#define SW_VERSION "0.0.9"
+#define SW_VERSION "0.0.10"
 
 Preferences preferences;
 WiFiClient espClient;
@@ -104,7 +104,6 @@ void loop() {
   mqtt_loop();
   preset_mode_loop();
   temperature_loop();
-  homeassistant_loop();
   door_loop();
 
   #if HTTP_UPDATE_ENABLED==true
