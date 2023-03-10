@@ -124,7 +124,7 @@ void homeassistant_autodiscovery_light() {
   doc["command_topic"] = topic_control_light;
   doc["state_topic"] = topic_status_light;
   doc["brightness"] = true;
-  doc["brightness_scale"] = 255;
+  doc["brightness_scale"] = 254;
   doc["brightness_command_topic"] = topic_control_light_brightness;
   doc["brightness_state_topic"] = topic_status_light_brightness;
   doc["availability_topic"] = topic_availability;
