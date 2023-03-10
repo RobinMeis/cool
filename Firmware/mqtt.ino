@@ -3,7 +3,7 @@ unsigned long mqtt_last_reconnect=0;
 void mqtt_init() {
   pinMode(LED_MQTT, OUTPUT);
   client.setServer(MQTT_SERVER, MQTT_PORT);
-  client.setCallback(callback);
+  client.setCallback(mqtt_callback);
 }
 
 void mqtt_reconnect() { //Check if MQTT server is connected and reconnect if required
@@ -57,7 +57,7 @@ void mqtt_reconnect() { //Check if MQTT server is connected and reconnect if req
   }
 }
 
-void callback(char* topic, byte* payload, unsigned int length) {
+void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   DynamicJsonDocument doc(2048);
   deserializeJson(doc, payload);
 
