@@ -23,6 +23,8 @@ void controller_loop(float temperature_fridge, float temperature_freezer) { //Ca
       result_fridge = controller(temperature_fridge, fridge_get_minimum_temperature(), fridge_get_maximum_temperature());
     else
       result_fridge = -2;
+  #else
+    result_fridge = -2;
   #endif
 
   #if HAS_FREEZER==true
@@ -30,6 +32,8 @@ void controller_loop(float temperature_fridge, float temperature_freezer) { //Ca
       result_freezer = controller(temperature_freezer, freezer_get_minimum_temperature(), freezer_get_maximum_temperature());
     else
        result_freezer = -2;
+  #else
+    result_freezer = -2;
   #endif
 
   if (result_fridge == -2 && result_freezer == -2) { //Stop cooling if fridge & compressor have been turned off
