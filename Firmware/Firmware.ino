@@ -84,8 +84,6 @@ void setup() {
   mqtt_generate_topic(topic_control_freezer_temperature_high, "control/freezer/temperature/high");
   mqtt_generate_topic(topic_control_reset_button, "control/reset");
   mqtt_generate_topic(topic_status_wifi, "status/wifi");
-  mqtt_generate_topic(topic_control_updater, "control/updater");
-  mqtt_generate_topic(topic_status_updater, "status/updater");
 
   preferences.begin("cool", false); 
   preset_mode_init();
